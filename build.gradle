@@ -1,0 +1,28 @@
+releaseVersion = '0.0.2'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.6
+manifest.mainAttributes(
+    'Implementation-Title': 'Karg',
+)
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile (
+        [group: 'com.google.guava', name: 'guava', version: 'r09']
+    )
+    testCompile  (group: 'org.jmock', name: 'jmock-junit4', version: '2.5.1+') {
+        exclude module: "hamcrest-core"
+        exclude module: "hamcrest-library"
+    }
+    testCompile  (group: "junit",         name: 'junit-dep',           version: "4.8.2") {
+        exclude module: "hamcrest-core"
+        exclude module: "hamcrest-library"
+    }
+    testCompile  group: 'org.hamcrest', name: 'hamcrest-all', version: '1.2'
+}
