@@ -1,4 +1,4 @@
-_Karg_ is a library that helps you to write Java functions that take keyword arguments, e.g.:
+[Karg](https://github.com/youdevise/karg) is a library that helps you to write Java functions that take keyword arguments, e.g.:
 
 ```java
 class Example {
