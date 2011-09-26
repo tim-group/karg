@@ -7,7 +7,7 @@ class Example {
     private static final Keyword<String> NAME = Keyword.newKeyword();
 
     public void greet(KeywordArgument...argArray) {
-        KeywordArguments args = KeywordArguments.from(argArray);
+        KeywordArguments args = KeywordArguments.of(argArray);
         String greeting = GREETING.from(args, "Hello");
         String name = NAME.from(args, "World");
         System.out.println(String.format("%s, %s!", greeting, name));
