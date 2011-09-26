@@ -1,0 +1,74 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.timgroup.karg</groupId>
+  <artifactId>karg</artifactId>
+  <packaging>jar</packaging>
+  <name>Karg</name>
+  <version>0.2</version>
+  <description>A library that helps you write Java functions using keyword arguments.</description>
+  <url>https://github.com/youdevise/karg</url>
+  <licenses>
+    <license>
+      <name>The MIT License (MIT)</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <url>https://github.com/youdevise/karg</url>
+    <connection>https://github.com/youdevise/karg</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>...</id>
+      <name>Dominic Fox</name>
+      <email>dominic.fox@timgroup.com</email>
+    </developer>
+  </developers>
+  <dependencies>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>r09</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-all</artifactId>
+      <version>1.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock-junit4</artifactId>
+      <version>2.5.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit-dep</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <defaultGoal>compile</defaultGoal>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!--
+  AVOID RELEASE REPOSITORY/PLUGINREPOSITORY:
+  <repositories></repositories>
+  <pluginRepositories></pluginRepositories>
+  -->
+</project>
