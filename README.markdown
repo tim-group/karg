@@ -1,4 +1,4 @@
-_Karg_ is a library that helps you to write Java functions that take keyword arguments, e.g.:
+[Karg](https://github.com/youdevise/karg) is a library that helps you to write Java functions that take keyword arguments, e.g.:
 
 ```java
 class Example {
@@ -7,7 +7,7 @@ class Example {
     private static final Keyword<String> NAME = Keyword.newKeyword();
 
     public void greet(KeywordArgument...argArray) {
-        KeywordArguments args = KeywordArguments.from(argArray);
+        KeywordArguments args = KeywordArguments.of(argArray);
         String greeting = GREETING.from(args, "Hello");
         String name = NAME.from(args, "World");
         System.out.println(String.format("%s, %s!", greeting, name));
