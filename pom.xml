@@ -1,4 +1,10 @@
 <project>
+
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.timgroup.karg</groupId>
   <artifactId>karg</artifactId>
@@ -15,8 +21,9 @@
     </license>
   </licenses>
   <scm>
-    <url>https://github.com/youdevise/karg</url>
-    <connection>https://github.com/youdevise/karg</connection>
+    <url>git@github.com:youdevise/karg.git</url>
+    <connection>scm:git:git@github.com:youdevise/karg.git</connection>
+    <developerConnection>scm:git:git@github.com:youdevise/karg.git</developerConnection>
   </scm>
   <developers>
     <developer>
@@ -30,7 +37,7 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>r09</version>
-      <scope>runtime</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
