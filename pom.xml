@@ -1,16 +1,15 @@
 <project>
-
   <parent>
     <groupId>org.sonatype.oss</groupId>
     <artifactId>oss-parent</artifactId>
     <version>7</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.timgroup.karg</groupId>
+  <groupId>com.timgroup</groupId>
   <artifactId>karg</artifactId>
   <packaging>jar</packaging>
   <name>Karg</name>
-  <version>0.2</version>
+  <version>0.2-SNAPSHOT</version>
   <description>A library that helps you write Java functions using keyword arguments.</description>
   <url>https://github.com/youdevise/karg</url>
   <licenses>
@@ -69,6 +68,27 @@
           <source>1.6</source>
           <target>1.6</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.8</version>
+        <configuration>
+          ...
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
