@@ -1,12 +1,12 @@
-package com.timgroup.karg;
+package com.timgroup.karg.functions;
 
 import org.junit.Test;
 
 import com.google.common.base.Function;
+import com.timgroup.karg.functions.VarArgAdapter;
+import com.timgroup.karg.functions.VarArgFunction;
 import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArguments;
-import com.timgroup.karg.keywords.VarArgAdapter;
-import com.timgroup.karg.keywords.VarArgFunction;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

@@ -1,4 +1,4 @@
-package com.timgroup.karg;
+package com.timgroup.karg.functions;
 
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.is;
@@ -6,12 +6,12 @@ import static org.hamcrest.Matchers.is;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
-import com.timgroup.karg.keywords.Curry;
+import com.timgroup.karg.functions.Curry;
+import com.timgroup.karg.functions.KeywordFunction;
+import com.timgroup.karg.functions.VarArgAdapter;
+import com.timgroup.karg.functions.VarArgFunction;
 import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArguments;
-import com.timgroup.karg.keywords.KeywordFunction;
-import com.timgroup.karg.keywords.VarArgAdapter;
-import com.timgroup.karg.keywords.VarArgFunction;
 
 
 public class CurryTest {

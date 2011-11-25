@@ -9,7 +9,7 @@
   <artifactId>karg</artifactId>
   <packaging>jar</packaging>
   <name>Karg</name>
-  <version>0.3-SNAPSHOT</version>
+  <version>0.4-SNAPSHOT</version>
   <description>A library that helps you write Java functions using keyword arguments.</description>
   <url>https://github.com/youdevise/karg</url>
   <licenses>
@@ -35,7 +35,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>r09</version>
+      <version>10.0.1</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

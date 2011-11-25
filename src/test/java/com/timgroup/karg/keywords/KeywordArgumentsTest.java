@@ -1,4 +1,4 @@
-package com.timgroup.karg;
+package com.timgroup.karg.keywords;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

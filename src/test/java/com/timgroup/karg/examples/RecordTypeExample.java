@@ -1,4 +1,4 @@
-package com.timgroup.karg;
+package com.timgroup.karg.examples;
 
 import java.util.List;
 import java.util.Map;

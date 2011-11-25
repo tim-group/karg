@@ -1,12 +1,10 @@
 package com.timgroup.karg.reference;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
 
 public final class Lenses {
     
@@ -45,25 +43,6 @@ public final class Lenses {
     
     public static <T> Lens<List<T>, T> firstItem() {
         return atIndex(0);
-    }
-    
-    public static <T> Lens<List<T>, T> firstMatch(final Predicate<T> predicate) {
-        return new Lens<List<T>, T>() {
-            @Override public T get(List<T> object) {
-                return Iterables.find(object, predicate, null);
-            }
-
-            @Override public T set(List<T> object, T newValue) {
-                ListIterator<T> iterator = object.listIterator();
-                while (iterator.hasNext()) {
-                    if (predicate.apply(iterator.next())) {
-                        iterator.set(newValue);
-                        return newValue;
-                    }
-                }
-                return null;
-            }
-        };
     }
 
     public static <O, T> Predicate<O> compose(final Lens<O, T> lens, final Predicate<T> predicate) {

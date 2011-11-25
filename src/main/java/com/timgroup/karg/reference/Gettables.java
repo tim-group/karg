@@ -52,7 +52,7 @@ public final class Gettables {
         };
     }
 
-    public static <T1, T2> Gettable<T2> chain(final Gettable<T1> gettable, final Function<T1, T2> function) {
+    public static <T1, T2> Gettable<T2> compose(final Gettable<T1> gettable, final Function<T1, T2> function) {
         return compose(gettable, Getters.toGetter(function));
     }
 }

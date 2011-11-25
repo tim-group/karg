@@ -21,6 +21,10 @@ public class KeywordArguments implements Map<Keyword<?>, KeywordArgument> {
         return of(newArrayList(keywordArgumentArgs));
     }
     
+    public static KeywordArguments empty() {
+        return of();
+    }
+    
     public static KeywordArguments of(List<KeywordArgument> keywordArgumentList) {
         return new KeywordArguments(keywordArgumentList);
     }

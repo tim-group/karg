@@ -1,4 +1,4 @@
-package com.timgroup.karg.keywords;
+package com.timgroup.karg.typeconversion;
 
 import com.timgroup.karg.reference.Gettable;
 import com.timgroup.karg.reference.Getter;

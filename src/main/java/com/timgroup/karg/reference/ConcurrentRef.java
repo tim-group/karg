@@ -3,7 +3,7 @@ package com.timgroup.karg.reference;
 import com.google.common.base.Function;
 
 public class ConcurrentRef<T> implements Updatable<T> {
-    
+
     public static <T> Updatable<T> to(Updatable<T> updatable) {
         return updatable;
     }

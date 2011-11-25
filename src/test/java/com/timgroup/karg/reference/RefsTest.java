@@ -1,4 +1,4 @@
-package com.timgroup.karg;
+package com.timgroup.karg.reference;
 
 import org.junit.Test;
 

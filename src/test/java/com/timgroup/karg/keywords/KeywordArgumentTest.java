@@ -1,4 +1,4 @@
-package com.timgroup.karg;
+package com.timgroup.karg.keywords;
 
 import org.junit.Test;
 

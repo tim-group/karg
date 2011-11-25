@@ -1,4 +1,4 @@
-package com.timgroup.karg;
+package com.timgroup.karg.reference;
 
 import java.util.List;
 
@@ -95,18 +95,6 @@ public class LensesTest {
     providesLensIntoIndexedListItem() {
         List<String> names = Lists.newArrayList("Luke", "Han", "Leia", "Chewbacca");
         assertThat(Lenses.<String>atIndex(2).get(names), is("Leia"));
-    }
-    
-    @Test public void
-    providesLensToFirstMatchingListItem() {
-        List<String> names = Lists.newArrayList("Ice Cube", "Ice-T", "Vanilla Ice");
-        Predicate<String> isVanilla = new Predicate<String>() {
-            @Override
-            public boolean apply(String arg0) {
-                return arg0.contains("Vanilla");
-            }
-        };
-        assertThat(Lenses.firstMatch(isVanilla).get(names), is("Vanilla Ice"));
     }
     
     @Test public void

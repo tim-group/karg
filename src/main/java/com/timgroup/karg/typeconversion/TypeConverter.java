@@ -1,4 +1,4 @@
-package com.timgroup.karg.keywords;
+package com.timgroup.karg.typeconversion;
 
 public interface TypeConverter<INNER, OUTER> {
     INNER pushIn(OUTER outer);

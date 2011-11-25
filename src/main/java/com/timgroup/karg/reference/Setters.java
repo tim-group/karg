@@ -1,7 +1,5 @@
 package com.timgroup.karg.reference;
 
-
-
 public final class Setters {
     
     public static interface SetterObjectCapture<O, T> {

@@ -1,4 +1,4 @@
-package com.timgroup.karg;
+package com.timgroup.karg.examples;
 
 import static com.google.common.collect.Collections2.filter;
 import static com.google.common.collect.Lists.newArrayList;
@@ -12,13 +12,13 @@ import org.junit.Test;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.timgroup.karg.keywords.Curry;
-import com.timgroup.karg.keywords.FunctionBundle;
-import com.timgroup.karg.keywords.FunctionRegistry;
+import com.timgroup.karg.functions.Curry;
 import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArgument;
 import com.timgroup.karg.keywords.KeywordArguments;
-import com.timgroup.karg.keywords.ParameterMatching;
+import com.timgroup.karg.multipledispatch.CandidateFunctionRegistry;
+import com.timgroup.karg.multipledispatch.FunctionBundle;
+import com.timgroup.karg.multipledispatch.ParameterMatching;
 
 
 public class FetcherExample {
@@ -110,7 +110,7 @@ public class FetcherExample {
         
         private static final FetcherFunctionBundle<FundOfFundOfFund> fetcherFunctions = new FetcherFunctionBundle<FundOfFundOfFund>() {
             @Override
-            public void register(FunctionRegistry<Iterator<FundOfFundOfFund>> registry) {
+            public void register(CandidateFunctionRegistry<Iterator<FundOfFundOfFund>> registry) {
                 registry.match(KeywordArguments.containing(name, company)).with(new FetchByNameAndCompany());
                 registry.match(KeywordArguments.containing(id, company)).with(new FetchByIdAndCompany());
                 registry.match(KeywordArguments.containing(company)).with(new FetchByCompany());

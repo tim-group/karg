@@ -1,13 +1,13 @@
-package com.timgroup.karg;
+package com.timgroup.karg.examples;
 
 import java.awt.Point;
 
 import org.junit.Test;
 
+import com.timgroup.karg.functions.KeywordFunction;
 import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArgument;
 import com.timgroup.karg.keywords.KeywordArguments;
-import com.timgroup.karg.keywords.KeywordFunction;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

@@ -1,4 +1,4 @@
-package com.timgroup.karg;
+package com.timgroup.karg.keywords;
 
 import java.util.Collection;
 import java.util.List;
@@ -6,10 +6,10 @@ import java.util.List;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
+import com.timgroup.karg.functions.KeywordFunction;
 import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArgument;
 import com.timgroup.karg.keywords.KeywordArguments;
-import com.timgroup.karg.keywords.KeywordFunction;
 import com.timgroup.karg.reference.Ref;
 
 import static com.timgroup.karg.keywords.Keyword.newKeyword;

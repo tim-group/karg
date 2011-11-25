@@ -1,6 +1,8 @@
-package com.timgroup.karg.keywords;
+package com.timgroup.karg.functions;
 
 import com.google.common.base.Function;
+import com.timgroup.karg.keywords.KeywordArgument;
+import com.timgroup.karg.keywords.KeywordArguments;
 
 public final class VarArgAdapter {
     

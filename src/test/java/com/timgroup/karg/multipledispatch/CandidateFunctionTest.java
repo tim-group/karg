@@ -1,4 +1,4 @@
-package com.timgroup.karg;
+package com.timgroup.karg.multipledispatch;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.timgroup.karg.keywords.CandidateFunction;
 import com.timgroup.karg.keywords.KeywordArguments;
+import com.timgroup.karg.multipledispatch.CandidateFunction;
 
 public class CandidateFunctionTest {
     

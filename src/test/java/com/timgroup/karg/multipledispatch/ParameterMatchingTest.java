@@ -1,4 +1,4 @@
-package com.timgroup.karg;
+package com.timgroup.karg.multipledispatch;
 
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
@@ -6,11 +6,11 @@ import org.junit.Test;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.timgroup.karg.keywords.FunctionBundle;
-import com.timgroup.karg.keywords.FunctionRegistry;
 import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArguments;
-import com.timgroup.karg.keywords.ParameterMatching;
+import com.timgroup.karg.multipledispatch.CandidateFunctionRegistry;
+import com.timgroup.karg.multipledispatch.FunctionBundle;
+import com.timgroup.karg.multipledispatch.ParameterMatching;
 
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.is;
@@ -39,7 +39,7 @@ public class ParameterMatchingTest {
         
         final FunctionBundle<String> bundle = new FunctionBundle<String>() {
             @Override
-            public void register(FunctionRegistry<String> registry) {
+            public void register(CandidateFunctionRegistry<String> registry) {
                 registry.match(KeywordArguments.containing(firstName)).with(sayHelloInformally);
                 registry.match(KeywordArguments.containing(title, lastName)).with(sayHelloFormally);        
             }
@@ -54,7 +54,7 @@ public class ParameterMatchingTest {
     @Test(expected=UnsupportedOperationException.class) public void
     throwsExceptionIfNoMatchingFunctionFound() {
         final FunctionBundle<String> emptyBundle = new FunctionBundle<String>() {
-            @Override public void register(FunctionRegistry<String> registry) { }
+            @Override public void register(CandidateFunctionRegistry<String> registry) { }
         };
         
         ParameterMatching<String> addressAppropriately = ParameterMatching.function(emptyBundle);
@@ -87,7 +87,7 @@ public class ParameterMatchingTest {
         
         final FunctionBundle<String> bundle = new FunctionBundle<String>() {
             @Override
-            public void register(FunctionRegistry<String> registry) {
+            public void register(CandidateFunctionRegistry<String> registry) {
                 registry.match(valueGreaterThanOrEqualToZero).with(greaterThanOrEqualToZero);
                 registry.match(Predicates.not(valueGreaterThanOrEqualToZero)).with(lessThanZero);        
             }

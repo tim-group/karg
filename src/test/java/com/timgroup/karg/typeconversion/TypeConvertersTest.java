@@ -1,16 +1,16 @@
-package com.timgroup.karg;
+package com.timgroup.karg.typeconversion;
 
 import java.util.List;
 
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
-import com.timgroup.karg.keywords.TypeConverter;
-import com.timgroup.karg.keywords.TypeConverters;
 import com.timgroup.karg.reference.Cell;
 import com.timgroup.karg.reference.Lens;
 import com.timgroup.karg.reference.Lenses;
 import com.timgroup.karg.reference.Ref;
+import com.timgroup.karg.typeconversion.TypeConverter;
+import com.timgroup.karg.typeconversion.TypeConverters;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
