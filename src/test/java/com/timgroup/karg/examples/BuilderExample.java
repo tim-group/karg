@@ -1,5 +1,8 @@
 package com.timgroup.karg.examples;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
 import java.awt.Point;
 
 import org.junit.Test;
@@ -8,9 +11,7 @@ import com.timgroup.karg.functions.KeywordFunction;
 import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArgument;
 import com.timgroup.karg.keywords.KeywordArguments;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import com.timgroup.karg.keywords.Keywords;
 
 public class BuilderExample {
     
@@ -46,10 +47,10 @@ public class BuilderExample {
     
     public static class LineBuilder implements KeywordFunction<Line> {
         
-        public static final Keyword<Integer> START_X = Keyword.newKeyword();
-        public static final Keyword<Integer> START_Y = Keyword.newKeyword();
-        public static final Keyword<Integer> END_X = Keyword.newKeyword();
-        public static final Keyword<Integer> END_Y = Keyword.newKeyword();
+        public static final Keyword<Integer> START_X = Keywords.newKeyword();
+        public static final Keyword<Integer> START_Y = Keywords.newKeyword();
+        public static final Keyword<Integer> END_X = Keywords.newKeyword();
+        public static final Keyword<Integer> END_Y = Keywords.newKeyword();
         
         public static Line a_line_with(KeywordArgument...args) {
             return new LineBuilder().apply(KeywordArguments.of(args));

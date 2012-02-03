@@ -10,7 +10,7 @@ import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArgument;
 import com.timgroup.karg.keywords.KeywordArguments;
 
-import static com.timgroup.karg.keywords.Keyword.newKeyword;
+import static com.timgroup.karg.keywords.Keywords.newKeyword;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;

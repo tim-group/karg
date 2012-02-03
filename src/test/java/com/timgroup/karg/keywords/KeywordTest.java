@@ -10,9 +10,10 @@ import com.timgroup.karg.functions.KeywordFunction;
 import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArgument;
 import com.timgroup.karg.keywords.KeywordArguments;
+import com.timgroup.karg.reference.Lenses;
 import com.timgroup.karg.reference.Ref;
 
-import static com.timgroup.karg.keywords.Keyword.newKeyword;
+import static com.timgroup.karg.keywords.Keywords.newKeyword;
 
 import static com.google.common.base.Functions.compose;
 import static com.google.common.collect.Collections2.transform;
@@ -30,7 +31,7 @@ public class KeywordTest {
     
     @Test public void
     hasStaticConstructorWhichInfersType() {
-        Keyword<Integer> keyword = Keyword.newKeyword();
+        Keyword<Integer> keyword = Keywords.newKeyword();
         assertThat(keyword, notNullValue(Keyword.class));
     }
     
@@ -59,8 +60,8 @@ public class KeywordTest {
     @SuppressWarnings("unchecked")
     @Test public void
     providesFunctionToLiftASingleValueToAKeywordArgumentSet() {
-        final Keyword<String> greeting = Keyword.newKeyword();
-        final Keyword<String> name = Keyword.newKeyword();
+        final Keyword<String> greeting = Keywords.newKeyword();
+        final Keyword<String> name = Keywords.newKeyword();
         
         KeywordFunction<String> greet = new KeywordFunction<String>() {
             @Override public String apply(KeywordArguments input) {
@@ -69,7 +70,7 @@ public class KeywordTest {
         };
         
         List<String> names = newArrayList("Peter", "Paul", "Mary");
-        Collection<String> greetings = transform(names, compose(greet, name.lift(greeting.of("Hello"))));
+        Collection<String> greetings = transform(names, compose(greet, Keywords.lift(name, greeting.of("Hello"))));
         
         assertThat(greetings, Matchers.<String>hasItems(is("Hello, Peter"),
                                                 is("Hello, Paul"),
@@ -79,8 +80,8 @@ public class KeywordTest {
     @SuppressWarnings("unchecked")
     @Test public void
     canLowerAKeywordFunctionToAPlainValueFunction() {
-        final Keyword<String> greeting = Keyword.newKeyword();
-        final Keyword<String> name = Keyword.newKeyword();
+        final Keyword<String> greeting = Keywords.newKeyword();
+        final Keyword<String> name = Keywords.newKeyword();
         
         KeywordFunction<String> greet = new KeywordFunction<String>() {
             @Override public String apply(KeywordArguments input) {
@@ -89,7 +90,7 @@ public class KeywordTest {
         };
         
         List<String> names = newArrayList("Peter", "Paul", "Mary");
-        Collection<String> greetings = transform(names, name.lower(greet, greeting.of("Goodbye")));
+        Collection<String> greetings = transform(names, Keywords.lower(name, greet, greeting.of("Goodbye")));
         
         assertThat(greetings, Matchers.<String>hasItems(is("Goodbye, Peter"),
                                                 is("Goodbye, Paul"),
@@ -98,9 +99,9 @@ public class KeywordTest {
     
     @Test public void
     hasArbitraryMetadata() {
-        Keyword<Integer> MIN_VALUE = Keyword.newKeyword();
-        Keyword<Integer> MAX_VALUE = Keyword.newKeyword();
-        Keyword<Integer> BOUNDED_VALUE = Keyword.newKeyword(MIN_VALUE.of(0),
+        Keyword<Integer> MIN_VALUE = Keywords.newKeyword();
+        Keyword<Integer> MAX_VALUE = Keywords.newKeyword();
+        Keyword<Integer> BOUNDED_VALUE = Keywords.newKeyword(MIN_VALUE.of(0),
                                                             MAX_VALUE.of(100));
         
         assertThat(BOUNDED_VALUE.metadata().valueOf(MIN_VALUE), is(0));
@@ -109,8 +110,8 @@ public class KeywordTest {
     
     @Test public void
     isLensIntoKeywordArguments() {
-        Keyword<String> greeting = Keyword.newKeyword();
-        Keyword<String> name = Keyword.newKeyword();
+        Keyword<String> greeting = Keywords.newKeyword();
+        Keyword<String> name = Keywords.newKeyword();
         
         KeywordArguments args1 = KeywordArguments.of(greeting.of("Hello"), name.of("World"));
         assertThat(greeting.get(args1), is("Hello"));
@@ -121,12 +122,12 @@ public class KeywordTest {
     
     @Test public void
     bindsToKeywordArgumentsToMakeRef() {
-        Keyword<String> greeting = Keyword.newKeyword();
-        Keyword<String> name = Keyword.newKeyword();
+        Keyword<String> greeting = Keywords.newKeyword();
+        Keyword<String> name = Keywords.newKeyword();
         
         KeywordArguments args1 = KeywordArguments.of(greeting.of("Hello"), name.of("World"));
         
-        Ref<String> maybeName = name.bindTo(args1);
+        Ref<String> maybeName = Lenses.bind(name).to(args1);
         
         assertThat(maybeName.get(), is("World"));
         maybeName.set("Sailor");

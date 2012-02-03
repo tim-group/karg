@@ -1,6 +1,5 @@
 package com.timgroup.karg.reference;
 
-import java.util.Collection;
 import java.util.Iterator;
 
 import com.google.common.base.Function;
@@ -41,7 +40,7 @@ public final class Refs {
         };
     }
     
-    public static <T> Iterable<T> toIterable(Collection<? extends Ref<T>> refs) {
+    public static <T> Iterable<T> toIterable(Iterable<? extends Ref<T>> refs) {
         Function<Ref<T>, Iterable<T>> toIterable = toIterable();
         return Iterables.concat(Iterables.transform(refs, toIterable));
     }

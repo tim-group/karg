@@ -1,5 +1,9 @@
 package com.timgroup.karg.examples;
 
+import static com.timgroup.karg.keywords.Keywords.DISPLAY_NAME;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,11 +16,7 @@ import com.google.common.collect.Maps;
 import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArgument;
 import com.timgroup.karg.keywords.KeywordArguments;
-
-import static com.timgroup.karg.keywords.Keyword.DISPLAY_NAME;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import com.timgroup.karg.keywords.Keywords;
 
 
 public class RecordTypeExample {
@@ -24,8 +24,8 @@ public class RecordTypeExample {
     private static abstract class RecordType {
         
         // Metadata keywords used to tag keywords that will identify data columns used by a record type.
-        public static final Keyword<String> COLUMN_NAME = Keyword.newKeyword();
-        public static final Keyword<Matcher<? super String>> VALIDATOR = Keyword.newKeyword();
+        public static final Keyword<String> COLUMN_NAME = Keywords.newKeyword();
+        public static final Keyword<Matcher<? super String>> VALIDATOR = Keywords.newKeyword();
         
         private final KeywordArguments values;
         
@@ -66,12 +66,12 @@ public class RecordTypeExample {
     private static final class TestRecordType extends RecordType {
         
         // Keywords identifying fields of this record type
-        public static final Keyword<String> ALT_REF = Keyword.newKeyword(
+        public static final Keyword<String> ALT_REF = Keywords.newKeyword(
                                                           DISPLAY_NAME.of("Alternative Reference"),
                                                           COLUMN_NAME.of("alt ref"),
                                                           VALIDATOR.of(Matchers.startsWith("REF-")));
         
-        public static final Keyword<String> PUBLIC_ID = Keyword.newKeyword(
+        public static final Keyword<String> PUBLIC_ID = Keywords.newKeyword(
                                                             DISPLAY_NAME.of("Public ID"),
                                                             COLUMN_NAME.of("id"),
                                                             VALIDATOR.of(Matchers.startsWith("ID:")));

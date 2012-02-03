@@ -8,6 +8,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArguments;
+import com.timgroup.karg.keywords.Keywords;
 import com.timgroup.karg.multipledispatch.CandidateFunctionRegistry;
 import com.timgroup.karg.multipledispatch.FunctionBundle;
 import com.timgroup.karg.multipledispatch.ParameterMatching;
@@ -18,9 +19,9 @@ import static org.hamcrest.Matchers.is;
 
 public class ParameterMatchingTest {
     
-    private static final Keyword<String> title = Keyword.newKeyword();
-    private static final Keyword<String> firstName = Keyword.newKeyword();
-    private static final Keyword<String> lastName = Keyword.newKeyword();
+    private static final Keyword<String> title = Keywords.newKeyword();
+    private static final Keyword<String> firstName = Keywords.newKeyword();
+    private static final Keyword<String> lastName = Keywords.newKeyword();
     
     @Test public void
     findsMatchingMultiFunctionBasedOnParameterSet() {
@@ -64,7 +65,7 @@ public class ParameterMatchingTest {
     @Test public void
     findsMatchingFunctionBasedOnMatcherPredicate() {
         
-        final Keyword<Integer> value = Keyword.newKeyword();
+        final Keyword<Integer> value = Keywords.newKeyword();
         
         final Function<KeywordArguments, String> greaterThanOrEqualToZero = new Function<KeywordArguments, String>() {
             @Override public String apply(KeywordArguments parameters) {

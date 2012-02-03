@@ -14,7 +14,7 @@ public class KeywordArgumentTest {
     @SuppressWarnings("unchecked")
     @Test public void
     bindsAKeywordToAValue() {
-        Keyword<String> name = Keyword.newKeyword();
+        Keyword<String> name = Keywords.newKeyword();
         KeywordArgument bound = KeywordArgument.value(name, "Hello");
         assertThat((Keyword<String>) bound.keyword(), is(name));
         assertThat((String) bound.value(), is("Hello"));

@@ -10,6 +10,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArguments;
+import com.timgroup.karg.keywords.Keywords;
 import com.timgroup.karg.reference.Getters;
 import com.timgroup.karg.reference.Lens;
 import com.timgroup.karg.reference.Lenses;
@@ -23,11 +24,11 @@ import static org.hamcrest.Matchers.is;
 
 public class LensesTest {
     
-    private static final Keyword<String> NAME = Keyword.newKeyword();
-    private static final Keyword<KeywordArguments> ADDRESS = Keyword.newKeyword();
-    private static final Keyword<String> FIRST_LINE = Keyword.newKeyword();
-    private static final Keyword<String> SECOND_LINE = Keyword.newKeyword();
-    private static final Keyword<String> POSTCODE = Keyword.newKeyword();
+    private static final Keyword<String> NAME = Keywords.newKeyword();
+    private static final Keyword<KeywordArguments> ADDRESS = Keywords.newKeyword();
+    private static final Keyword<String> FIRST_LINE = Keywords.newKeyword();
+    private static final Keyword<String> SECOND_LINE = Keywords.newKeyword();
+    private static final Keyword<String> POSTCODE = Keywords.newKeyword();
     
     private final KeywordArguments arthursDetails = KeywordArguments.of(
                                                         NAME.of("Arthur Putey"),

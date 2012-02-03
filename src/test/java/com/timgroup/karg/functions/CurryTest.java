@@ -12,12 +12,13 @@ import com.timgroup.karg.functions.VarArgAdapter;
 import com.timgroup.karg.functions.VarArgFunction;
 import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArguments;
+import com.timgroup.karg.keywords.Keywords;
 
 
 public class CurryTest {
     
-    private static final Keyword<String> greeting = Keyword.newKeyword();
-    private static final Keyword<String> addressee = Keyword.newKeyword();
+    private static final Keyword<String> greeting = Keywords.newKeyword();
+    private static final Keyword<String> addressee = Keywords.newKeyword();
     
     private final class GreetFunction implements KeywordFunction<String> {
         @Override

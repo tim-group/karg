@@ -7,6 +7,7 @@ import com.timgroup.karg.functions.VarArgAdapter;
 import com.timgroup.karg.functions.VarArgFunction;
 import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArguments;
+import com.timgroup.karg.keywords.Keywords;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -16,7 +17,7 @@ public class VarArgAdapterTest {
     
     @Test public void
     adaptsAParameterSetFunctionToAVarArgFunction() {
-        final Keyword<String> name = Keyword.newKeyword();
+        final Keyword<String> name = Keywords.newKeyword();
         
         Function<KeywordArguments, String> unadapted = new Function<KeywordArguments, String>() {
             @Override public String apply(KeywordArguments input) {

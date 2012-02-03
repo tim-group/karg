@@ -16,6 +16,7 @@ import com.timgroup.karg.functions.Curry;
 import com.timgroup.karg.keywords.Keyword;
 import com.timgroup.karg.keywords.KeywordArgument;
 import com.timgroup.karg.keywords.KeywordArguments;
+import com.timgroup.karg.keywords.Keywords;
 import com.timgroup.karg.multipledispatch.CandidateFunctionRegistry;
 import com.timgroup.karg.multipledispatch.FunctionBundle;
 import com.timgroup.karg.multipledispatch.ParameterMatching;
@@ -24,9 +25,9 @@ import com.timgroup.karg.multipledispatch.ParameterMatching;
 public class FetcherExample {
     
     // Some parameters to use in specifying queries
-    public static final Keyword<String> name = Keyword.newKeyword();
-    public static final Keyword<String> id = Keyword.newKeyword();
-    public static final Keyword<String> company = Keyword.newKeyword();
+    public static final Keyword<String> name = Keywords.newKeyword();
+    public static final Keyword<String> id = Keywords.newKeyword();
+    public static final Keyword<String> company = Keywords.newKeyword();
     
     // A dummy entity class
     public static class FundOfFundOfFund {
