@@ -36,6 +36,17 @@ public final class StringFunctions {
         }
     };
     
+    public static final Function<String, String> UNCAPITALISE = new Function<String, String>() {
+        @Override
+        public String apply(String arg0) {
+            switch(arg0.length()) {
+                case 0: return "";
+                case 1: return arg0.toLowerCase();
+                default: return arg0.substring(0, 1).toLowerCase() + arg0.substring(1);
+            }
+        }
+    };
+    
     public static final Predicate<String> EMPTY = new Predicate<String>() {
         @Override public boolean apply(String arg0) {
             return arg0.isEmpty();
