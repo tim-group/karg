@@ -8,9 +8,8 @@ import com.google.common.base.Preconditions;
 
 public class Delegator<T, I> {
     
-    private final String methodName;
+    private final Method targetMethod;
     private final Class<? super I> delegateClass;
-    private final Class<? super T> targetClass;
     
     public static interface MethodNameBinder {
         <T> Delegator.TargetClassBinder<T> of(Class<? super T> targetClass);
@@ -25,15 +24,15 @@ public class Delegator<T, I> {
             @Override public <T> Delegator.TargetClassBinder<T> of(final Class<? super T> targetClass) {
                 return new Delegator.TargetClassBinder<T>() {
                     @Override public <I> Delegator<T, I> to(Class<? super I> delegateClass) {
-                       validate(methodName, targetClass, delegateClass);
-                       return new Delegator<T, I>(methodName, targetClass, delegateClass);
+                       Method targetMethod = getTargetMethod(methodName, targetClass, delegateClass);
+                       return new Delegator<T, I>(targetMethod, delegateClass);
                     }
                 };
             }
         };
     }
     
-    private static void validate(String methodName, Class<?> targetClass, Class<?> delegateClass) {
+    private static Method getTargetMethod(String methodName, Class<?> targetClass, Class<?> delegateClass) {
         try {
             Preconditions.checkArgument(delegateClass.isInterface(), "Delegate class must be an interface");
             Preconditions.checkArgument(delegateClass.getDeclaredMethods().length == 1,
@@ -41,14 +40,14 @@ public class Delegator<T, I> {
             Method delegateMethod = delegateClass.getDeclaredMethods()[0];
             Method method = targetClass.getMethod(methodName, delegateMethod.getParameterTypes());
             Preconditions.checkArgument(delegateMethod.getReturnType().isAssignableFrom(method.getReturnType()));
+            return method;
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
     
-    public Delegator(String methodName, Class<? super T> targetClass, Class<? super I> delegateClass) {
-        this.methodName = methodName;
-        this.targetClass = targetClass;
+    public Delegator(Method targetMethod, Class<? super I> delegateClass) {
+        this.targetMethod = targetMethod;
         this.delegateClass = delegateClass;
     }
     
@@ -63,23 +62,8 @@ public class Delegator<T, I> {
         return new InvocationHandler() {
             @Override public Object invoke(Object proxy, Method method, Object[] args)
                     throws Throwable {
-                Class<?>[] types = getArgumentTypes(args);
-                return targetClass.getMethod(methodName, types).invoke(instance, args);
+                return targetMethod.invoke(instance, args);
             }
-
-
-            
         };
-    }
-    
-    private Class<?>[] getArgumentTypes(Object[] args) {
-        if (args == null) {
-            return null;
-        }
-        Class<?>[] types = new Class<?>[args.length];
-        for (int i=0; i<args.length; i++) {
-            types[i] = args[i].getClass();
-        }
-        return types;
     }
 }
