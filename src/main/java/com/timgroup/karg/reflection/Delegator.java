@@ -1,6 +1,7 @@
 package com.timgroup.karg.reflection;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
@@ -62,7 +63,17 @@ public class Delegator<T, I> {
         return new InvocationHandler() {
             @Override public Object invoke(Object proxy, Method method, Object[] args)
                     throws Throwable {
-                return targetMethod.invoke(instance, args);
+                try {
+                    return targetMethod.invoke(instance, args);
+                } catch (InvocationTargetException e) {
+                    Class<? extends Throwable> targetExceptionClass = e.getTargetException().getClass();
+                    for(Class<?> exceptionType : method.getExceptionTypes()) {
+                        if (exceptionType.isAssignableFrom(targetExceptionClass)) {
+                            throw e.getTargetException();
+                        }
+                    }
+                    throw e;
+                }
             }
         };
     }

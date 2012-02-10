@@ -82,4 +82,27 @@ public class DelegatorTest {
         
         assertThat(delegate.op(4.0, 5.0), equalTo(4.0 * 5.0));
     }
+    
+    public static class MyException extends Exception {
+        private static final long serialVersionUID = 1L; }
+    
+    public static interface Exceptional {
+        void blowUp() throws Exception;
+    }
+    
+    public static class Exploder {
+        public void explode() throws MyException {
+            throw new MyException();
+        }
+    }
+    
+    @Test(expected=MyException.class) public void
+    passes_back_the_declared_exception_type_where_possible() throws Exception {
+        Delegator<Exploder, Exceptional> delegator = Delegator.ofMethod("explode")
+                                                              .of(Exploder.class)
+                                                              .to(Exceptional.class);
+        
+        Exceptional exceptional = delegator.delegateTo(new Exploder());
+        exceptional.blowUp();
+    }
 }
