@@ -115,11 +115,11 @@ public class AccessorCatalogue<O> {
         getters = ImmutableMap.<String, Getter<O, ?>>builder().putAll(accessors).build();
     }
 
-    public ImmutableMap<String, Getter<O, ?>> getters() {
+    public ImmutableMap<String, Getter<O, ?>> readOnlyAttributes() {
         return getters;
     }
     
-    public ImmutableMap<String, Lens<O, ?>> lenses() {
+    public ImmutableMap<String, Lens<O, ?>> allAttributes() {
         return lenses;
     }
 }

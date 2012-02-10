@@ -19,21 +19,21 @@ public class ReflectiveAccessorFactory<O> {
     
     @SuppressWarnings("unchecked")
     public <T> Lens<O, T> getLens(final String propertyName) {
-        Lens<O, T> lens = (Lens<O, T>) catalogue.lenses().get(propertyName);
+        Lens<O, T> lens = (Lens<O, T>) catalogue.allAttributes().get(propertyName);
         Preconditions.checkNotNull(lens, "No writable property or field \"%s\"", propertyName);
         return lens;
     }
     
     @SuppressWarnings("unchecked")
     public <T> Getter<O, T> getGetter(String propertyName) {
-        Getter<O, T> getter = (Getter<O, T>) catalogue.getters().get(propertyName);
+        Getter<O, T> getter = (Getter<O, T>) catalogue.readOnlyAttributes().get(propertyName);
         Preconditions.checkNotNull(getter, "No readable property or field \"%s\"", propertyName);
         return getter;
     }
     
     @SuppressWarnings("unchecked")
     public <T> Setter<O, T> getSetter(String propertyName) {
-        Lens<O, T> lens = (Lens<O, T>) catalogue.lenses().get(propertyName);
+        Lens<O, T> lens = (Lens<O, T>) catalogue.allAttributes().get(propertyName);
         Preconditions.checkNotNull(lens, "No writable property or field \"%s\"", propertyName);
         return lens;
     }

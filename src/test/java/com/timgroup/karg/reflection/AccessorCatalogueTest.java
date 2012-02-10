@@ -28,7 +28,7 @@ public class AccessorCatalogueTest {
     @Test public void
     exposes_all_attributes_of_a_class_as_getters() {
         AccessorCatalogue<TestClass> catalogue = AccessorCatalogue.forClass(TestClass.class);
-        assertThat(catalogue.getters().keySet(),
+        assertThat(catalogue.readOnlyAttributes().keySet(),
                    hasItems("readOnlyField", "readOnlyProperty", "writableField", "encapsulatedField",
                             "hashCode", "class", "toString"));
     }
@@ -36,14 +36,14 @@ public class AccessorCatalogueTest {
     @Test public void
     exposes_all_writable_attributes_of_a_class_as_lenses() {
         AccessorCatalogue<TestClass> catalogue = AccessorCatalogue.forClass(TestClass.class);
-        assertThat(catalogue.lenses().keySet(),
+        assertThat(catalogue.allAttributes().keySet(),
                    hasItems("writableField", "encapsulatedField"));
     }
     
     @Test public void
     does_not_expose_read_only_attributes_of_a_class_as_lenses() {
         AccessorCatalogue<TestClass> catalogue = AccessorCatalogue.forClass(TestClass.class);
-        assertThat(catalogue.lenses().keySet(),
+        assertThat(catalogue.allAttributes().keySet(),
                    Matchers.not(hasItems("readOnlyField", "readOnlyProperty",
                                          "hashCode", "class", "toString")));
     }

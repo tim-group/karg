@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterators;
+import com.timgroup.karg.naming.StringFunctions;
 
 import static java.lang.String.format;
 
@@ -66,7 +67,7 @@ public final class ClassInspector<O> {
     }
     
     private Predicate<Method> getterMethodNameMatches(String propertyName) {
-        String capitalisedPropertyName = propertyName.substring(0, 1).toUpperCase().concat(propertyName.substring(1));
+        String capitalisedPropertyName = StringFunctions.CAPITALISE.apply(propertyName);
         final Pattern pattern = Pattern.compile(format("%s|is%s|get%s", propertyName, capitalisedPropertyName, capitalisedPropertyName));
         return new Predicate<Method>() {
             @Override public boolean apply(Method method) {
@@ -76,7 +77,7 @@ public final class ClassInspector<O> {
     }
     
     private Predicate<Method> setterMethodNameMatches(String propertyName) {
-        String capitalisedPropertyName = propertyName.substring(0, 1).toUpperCase().concat(propertyName.substring(1));
+        String capitalisedPropertyName = StringFunctions.CAPITALISE.apply(propertyName);
         final String setterMethodName = "set" + capitalisedPropertyName;
         return new Predicate<Method>() {
             @Override public boolean apply(Method method) {
