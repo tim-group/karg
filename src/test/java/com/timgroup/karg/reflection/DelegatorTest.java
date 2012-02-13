@@ -56,7 +56,7 @@ public class DelegatorTest {
     }
     
     public static interface RightParameters {
-        Double op(Double lhs, Double rhs);
+        double op(double lhs, double rhs);
     }
     
     @Test(expected=Exception.class) public void
@@ -73,7 +73,7 @@ public class DelegatorTest {
                  .to(WrongParameters.class);
     }
     
-    @Test(expected=Exception.class) public void
+    @Test public void
     can_delegate_methods_with_multiple_parameters() {
         Delegator<Multiplier, RightParameters> multiplication = Delegator.ofMethod("multiply")
                                                                          .of(Multiplier.class)
@@ -104,5 +104,11 @@ public class DelegatorTest {
         
         Exceptional exceptional = delegator.delegateTo(new Exploder());
         exceptional.blowUp();
+    }
+    
+    @Test public void
+    can_bind_directly_to_instances() {
+        RightParameters delegate = Delegator.ofMethod("multiply").ofInstance(multiplier).to(RightParameters.class);
+        assertThat(delegate.op(4.0, 5.0), equalTo(4.0 * 5.0));
     }
 }

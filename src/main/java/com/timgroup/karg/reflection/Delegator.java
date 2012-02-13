@@ -12,25 +12,42 @@ public class Delegator<T, I> {
     private final Method targetMethod;
     private final Class<? super I> delegateClass;
     
-    public static interface MethodNameBinder {
-        <T> Delegator.TargetClassBinder<T> of(Class<? super T> targetClass);
+    public static final class MethodNameBinder {
+        private final String methodName;
+        private MethodNameBinder(String methodName) {
+            this.methodName = methodName;
+        }
+        
+        public <T> Delegator.TargetClassBinder<T> of(final Class<? super T> targetClass) {
+            return new Delegator.TargetClassBinder<T>() {
+                @Override public <I> Delegator<T, I> to(Class<? super I> delegateClass) {
+                   Method targetMethod = getTargetMethod(methodName, targetClass, delegateClass);
+                   return new Delegator<T, I>(targetMethod, delegateClass);
+                }
+            };
+        }
+        
+        public <T> ProxyBinder<T> ofInstance(final T targetInstance) {
+            return new ProxyBinder<T>() {
+                @SuppressWarnings("unchecked")
+                @Override public <I> I to(Class<? super I> delegateClass) {
+                    Class<T> targetClass = (Class<T>) targetInstance.getClass();
+                    return ofMethod(methodName).of(targetClass).to(delegateClass).delegateTo(targetInstance);
+                }
+            };
+        }
     }
     
     public static interface TargetClassBinder<T> {
         <I> Delegator<T, I> to(Class<? super I> delegateClass);
     }
     
+    public static interface ProxyBinder<T> {
+        <I> I to(Class<? super I> delegateClass);
+    }
+    
     public static Delegator.MethodNameBinder ofMethod(final String methodName) {
-        return new MethodNameBinder() {
-            @Override public <T> Delegator.TargetClassBinder<T> of(final Class<? super T> targetClass) {
-                return new Delegator.TargetClassBinder<T>() {
-                    @Override public <I> Delegator<T, I> to(Class<? super I> delegateClass) {
-                       Method targetMethod = getTargetMethod(methodName, targetClass, delegateClass);
-                       return new Delegator<T, I>(targetMethod, delegateClass);
-                    }
-                };
-            }
-        };
+        return new MethodNameBinder(methodName);
     }
     
     private static Method getTargetMethod(String methodName, Class<?> targetClass, Class<?> delegateClass) {
