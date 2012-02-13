@@ -48,11 +48,11 @@ public class DelegatorTest {
     private final Multiplier multiplier = new Multiplier();
     
     public static interface WrongReturnType {
-        Integer op(Double lhs, Double rhs);
+        int op(double lhs, double rhs);
     }
     
     public static interface WrongParameters {
-        Double op(Integer lhs, Double rhs);
+        double op(int lhs, double rhs);
     }
     
     public static interface RightParameters {
