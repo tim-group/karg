@@ -10,6 +10,8 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.timgroup.karg.reference.Getter;
+import com.timgroup.karg.reference.Lens;
 
 public class AccessorCatalogue<O> {
     
@@ -122,12 +124,17 @@ public class AccessorCatalogue<O> {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Accessor<O, T> getAttribute(String name) {
-        return (Accessor<O, T>) lenses.get(name);
+    public <T> Lens<O, T> getAttribute(String name) {
+        return (Lens<O, T>) lenses.get(name);
     }
     
     @SuppressWarnings("unchecked")
-    public <T> Accessor<O, T> getReadOnlyAttribute(String name) {
+    public <T> Getter<O, T> getReadOnlyAttribute(String name) {
+        return (Getter<O, T>) getters.get(name);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public <T> Accessor<O, T> getAccessor(String name) {
         return (Accessor<O, T>) getters.get(name);
     }
 }
