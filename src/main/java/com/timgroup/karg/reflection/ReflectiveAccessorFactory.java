@@ -17,16 +17,14 @@ public class ReflectiveAccessorFactory<O> {
         catalogue = AccessorCatalogue.forClass(targetClass);
     }
     
-    @SuppressWarnings("unchecked")
     public <T> Lens<O, T> getLens(final String propertyName) {
-        Lens<O, T> lens = (Lens<O, T>) catalogue.allAttributes().get(propertyName);
+        Lens<O, T> lens = catalogue.getAttribute(propertyName);
         Preconditions.checkNotNull(lens, "No writable property or field \"%s\"", propertyName);
         return lens;
     }
     
-    @SuppressWarnings("unchecked")
     public <T> Getter<O, T> getGetter(String propertyName) {
-        Getter<O, T> getter = (Getter<O, T>) catalogue.readOnlyAttributes().get(propertyName);
+        Getter<O, T> getter = catalogue.getReadOnlyAttribute(propertyName);
         Preconditions.checkNotNull(getter, "No readable property or field \"%s\"", propertyName);
         return getter;
     }

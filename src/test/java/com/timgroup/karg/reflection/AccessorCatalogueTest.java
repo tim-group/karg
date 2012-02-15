@@ -2,9 +2,13 @@ package com.timgroup.karg.reflection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
-import org.hamcrest.Matchers;
 import org.junit.Test;
+
+import com.timgroup.karg.reference.Getter;
+import com.timgroup.karg.reference.Lens;
 
 public class AccessorCatalogueTest {
 
@@ -44,7 +48,24 @@ public class AccessorCatalogueTest {
     does_not_expose_read_only_attributes_of_a_class_as_lenses() {
         AccessorCatalogue<TestClass> catalogue = AccessorCatalogue.forClass(TestClass.class);
         assertThat(catalogue.allAttributes().keySet(),
-                   Matchers.not(hasItems("readOnlyField", "readOnlyProperty",
-                                         "hashCode", "class", "toString")));
+                   not(hasItems("readOnlyField", "readOnlyProperty",
+                                "hashCode", "class", "toString")));
+    }
+    
+    @Test public void
+    has_a_type_inferencing_getReadOnlyAttribute_method() {
+        AccessorCatalogue<TestClass> catalogue = AccessorCatalogue.forClass(TestClass.class);
+        Getter<TestClass, String> getter = catalogue.getReadOnlyAttribute("encapsulatedField");
+        TestClass testInstance = new TestClass();
+        assertThat(getter.get(testInstance), is("writable value 2"));
+    }
+    
+    @Test public void
+    has_a_type_inferencing_getAttribute_method() {
+        AccessorCatalogue<TestClass> catalogue = AccessorCatalogue.forClass(TestClass.class);
+        Lens<TestClass, String> lens = catalogue.getAttribute("encapsulatedField");
+        TestClass testInstance = new TestClass();
+        lens.set(testInstance, "foo");
+        assertThat(lens.get(testInstance), is("foo"));
     }
 }

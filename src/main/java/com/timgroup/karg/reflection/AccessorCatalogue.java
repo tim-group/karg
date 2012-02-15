@@ -122,4 +122,14 @@ public class AccessorCatalogue<O> {
     public ImmutableMap<String, Lens<O, ?>> allAttributes() {
         return lenses;
     }
+
+    @SuppressWarnings("unchecked")
+    public <T> Lens<O, T> getAttribute(String name) {
+        return (Lens<O, T>) lenses.get(name);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public <T> Getter<O, T> getReadOnlyAttribute(String name) {
+        return (Getter<O, T>) getters.get(name);
+    }
 }
