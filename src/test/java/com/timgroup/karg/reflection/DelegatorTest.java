@@ -21,8 +21,7 @@ public class DelegatorTest {
     @Test public void
     can_delegate_a_single_method_interface_to_an_instance() throws Exception {
         Delegator<TestClass, Callable<String>> knockKnockDelegator = Delegator.ofMethod("knockKnock")
-                                                                     .<TestClass>of(TestClass.class)
-                                                                     .<Callable<String>>to(Callable.class);
+                                                                     .delegating(TestClass.class, Callable.class);
         Callable<String> callable = knockKnockDelegator.delegateTo(testInstance);
         assertThat(callable.call(), is("who's there?"));
     }
@@ -35,8 +34,7 @@ public class DelegatorTest {
     @Test(expected=Exception.class) public void
     throws_exception_if_interface_has_more_than_one_method() {
         Delegator.ofMethod("knockKnock")
-                 .of(TestClass.class)
-                 .to(TwoSheds.class);
+                 .delegating(TestClass.class, TwoSheds.class);
     }
     
     public static class Multiplier {
@@ -62,22 +60,19 @@ public class DelegatorTest {
     @Test(expected=Exception.class) public void
     throws_exception_if_interface_method_return_type_does_not_match_target_method() {
         Delegator.ofMethod("multiply")
-                 .<Multiplier>of(Multiplier.class)
-                 .<WrongReturnType>to(WrongReturnType.class);
+                 .delegating(Multiplier.class, WrongReturnType.class);
     }
     
     @Test(expected=Exception.class) public void
     throws_exception_if_interface_method_signature_does_not_match_target_method() {
         Delegator.ofMethod("multiply")
-                 .<Multiplier>of(Multiplier.class)
-                 .<WrongParameters>to(WrongParameters.class);
+                 .delegating(Multiplier.class, WrongParameters.class);
     }
     
     @Test public void
     can_delegate_methods_with_multiple_parameters() {
         Delegator<Multiplier, RightParameters> multiplication = Delegator.ofMethod("multiply")
-                                                                         .<Multiplier>of(Multiplier.class)
-                                                                         .<RightParameters>to(RightParameters.class);
+                                                                         .delegating(Multiplier.class, RightParameters.class);
         RightParameters delegate = multiplication.delegateTo(multiplier);
         
         assertThat(delegate.op(4.0, 5.0), equalTo(4.0 * 5.0));
@@ -99,8 +94,7 @@ public class DelegatorTest {
     @Test(expected=MyException.class) public void
     passes_back_the_declared_exception_type_where_possible() throws Exception {
         Delegator<Exploder, Exceptional> delegator = Delegator.ofMethod("explode")
-                                                              .<Exploder>of(Exploder.class)
-                                                              .<Exceptional>to(Exceptional.class);
+                                                              .delegating(Exploder.class, Exceptional.class);
         
         Exceptional exceptional = delegator.delegateTo(new Exploder());
         exceptional.blowUp();
@@ -108,7 +102,7 @@ public class DelegatorTest {
     
     @Test public void
     can_bind_directly_to_instances() {
-        RightParameters delegate = Delegator.ofMethod("multiply").ofInstance(multiplier).to(RightParameters.class);
+        RightParameters delegate = Delegator.ofMethod("multiply").delegating(multiplier, RightParameters.class);
         assertThat(delegate.op(4.0, 5.0), equalTo(4.0 * 5.0));
     }
 }

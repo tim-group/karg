@@ -18,32 +18,16 @@ public class Delegator<T, I> {
             this.methodName = methodName;
         }
         
-        public <T> Delegator.TargetClassBinder<T> of(final Class<? super T> targetClass) {
-            return new Delegator.TargetClassBinder<T>() {
-                @Override public <I> Delegator<T, I> to(Class<? super I> delegateClass) {
-                   Method targetMethod = getTargetMethod(methodName, targetClass, delegateClass);
-                   return new Delegator<T, I>(targetMethod, delegateClass);
-                }
-            };
+        public <T, I> Delegator<T, I> delegating(Class<? super T> targetClass, Class<? super I> delegateClass) {
+           Method targetMethod = getTargetMethod(methodName, targetClass, delegateClass);
+           return new Delegator<T, I>(targetMethod, delegateClass);
         }
         
-        public <T> ProxyBinder<T> ofInstance(final T targetInstance) {
-            return new ProxyBinder<T>() {
-                @SuppressWarnings("unchecked")
-                @Override public <I> I to(Class<? super I> delegateClass) {
-                    Class<T> targetClass = (Class<T>) targetInstance.getClass();
-                    return ofMethod(methodName).<T>of(targetClass).<I>to(delegateClass).delegateTo(targetInstance);
-                }
-            };
+        @SuppressWarnings("unchecked")
+        public <T, I> I delegating(T targetInstance, Class<? super I> delegateClass) {
+            Class<T> targetClass = (Class<T>) targetInstance.getClass();
+            return ofMethod(methodName).delegating(targetClass, delegateClass).delegateTo(targetInstance);
         }
-    }
-    
-    public static interface TargetClassBinder<T> {
-        <I> Delegator<T, I> to(Class<? super I> delegateClass);
-    }
-    
-    public static interface ProxyBinder<T> {
-        <I> I to(Class<? super I> delegateClass);
     }
     
     public static Delegator.MethodNameBinder ofMethod(final String methodName) {
