@@ -9,7 +9,7 @@
   <artifactId>karg</artifactId>
   <packaging>jar</packaging>
   <name>Karg</name>
-  <version>0.7-SNAPSHOT</version>
+  <version>0.7</version>
   <description>A library that helps you write Java functions using keyword arguments.</description>
   <url>https://github.com/youdevise/karg</url>
   <licenses>
