@@ -32,7 +32,7 @@ public class Delegator<T, I> {
                 @SuppressWarnings("unchecked")
                 @Override public <I> I to(Class<? super I> delegateClass) {
                     Class<T> targetClass = (Class<T>) targetInstance.getClass();
-                    return ofMethod(methodName).of(targetClass).to(delegateClass).delegateTo(targetInstance);
+                    return ofMethod(methodName).of(targetClass).<I>to(delegateClass).delegateTo(targetInstance);
                 }
             };
         }
