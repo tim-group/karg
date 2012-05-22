@@ -1,0 +1,84 @@
+<h1 id="karg-keyword-arguments-for-java">Karg: keyword arguments for Java</h1>
+<h2 id="keyword-arguments-in-other-languages">Keyword arguments in other languages</h2>
+<p>Most civilised programming languages (and some quite uncivilised ones) support some way of identifying the arguments passed to a function by name rather than by order, e.g.</p>
+<pre class="sourceCode python"><code class="sourceCode python">person = directory.findThePerson(forename=<span class="st">&#39;Arthur&#39;</span>, surname=<span class="st">&#39;Putey&#39;</span>)</code></pre>
+<p>rather than</p>
+<pre class="sourceCode python"><code class="sourceCode python">person = directory.findThePerson(<span class="st">&#39;Arthur&#39;</span>, <span class="st">&#39;Putey&#39;</span>)</code></pre>
+<p>This becomes especially useful when (as in the case of searching a directory for a person matching some criteria) not all of the arguments are compulsory, or some may have sensible default values:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co"># Finds Arthur Putey and Arthur Daley</span>
+arthurs = directory.findThePeople(forename=<span class="st">&#39;Arthur&#39;</span>)
+
+<span class="co"># Finds Jack Smith and Wolfie Smith</span>
+smiths = directory.findThePeople(surname=<span class="st">&#39;Smith&#39;</span>) </code></pre>
+<p>A common convention is to specify the default value for a named argument in the signature of the function itself:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> pythonQuotation(quotation, freshness=<span class="st">&#39;stale&#39;</span>):
+    <span class="kw">print</span> <span class="st">&#39;For your amusement, the following </span><span class="ot">%s</span><span class="st"> Python quotation:&#39;</span> % freshness
+    <span class="kw">print</span> quotation
+
+pythonQuotation(<span class="st">&#39;This is an ex-Parrot!&#39;</span>)
+pythonQuotation(<span class="st">&#39;Run away! Run away!&#39;</span>, freshness=<span class="st">&#39;ever-fragrant&#39;</span>)</code></pre>
+<p>Named arguments (or keyword arguments, as they're sometimes known) are especially useful when you want to specify the desired properties of some object to a builder of objects of that kind:</p>
+<pre class="sourceCode python"><code class="sourceCode python">myPony = daddy.iWantAPony(colour=<span class="st">&#39;pink&#39;</span>,
+                          mane=<span class="st">&#39;lustrous&#39;</span>,
+                          magicPowers=[<span class="st">&#39;glitter stamp&#39;</span>, <span class="st">&#39;rainbow yawn&#39;</span>])</code></pre>
+<p>Alas, Java has yet to attain this level of civilisation. Karg is a makeshift solution, lashed together with twigs and vine.</p>
+<h2 id="a-simple-example">A simple example</h2>
+<p>A library can't modify Java's syntax, so Karg's solution involves some abuse of existing syntax to achieve a reasonably fluent alternative. Keywords are defined as constants:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> Quotation {
+    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> Keyword&lt;String&gt; FRESHNESS = Keyword.<span class="fu">newKeyword</span>();
+}</code></pre>
+<p>which may be statically imported</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">import static org.example.keywords.Quotation.FRESHNESS;</span></code></pre>
+<p>and then used as follows:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">pythonQuotation</span>(<span class="st">&quot;Welease Wodewick!&quot;</span>, FRESHNESS.<span class="fu">of</span>(<span class="st">&quot;somewhat gamey&quot;</span>));</code></pre>
+<p>If you don't like static imports, or want to disambiguate keywords with the same names but different meanings or intended contexts, consider scoping keywords to their containing classes, e.g.</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">import org.example.keywords.Quotation;</span></code></pre>
+<p>and then</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="fu">pythonQuotation</span>(<span class="st">&quot;The larch&quot;</span>, Quotation.<span class="fu">FRESHNESS</span>.<span class="fu">of</span>(<span class="st">&quot;distinctly mildewed&quot;</span>));</code></pre>
+<p>A method that will receive keyword arguments needs to do the following:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">void</span> <span class="fu">pythonQuotation</span>(String quotation, KeywordArgument...<span class="fu">argArray</span>) {
+    KeywordArguments args = KeywordArguments.<span class="fu">of</span>(argArray);
+    String freshness = FRESHNESS.<span class="fu">from</span>(args, <span class="st">&quot;stale&quot;</span>);
+    System.<span class="fu">out</span>.<span class="fu">println</span>(String<span class="fu">.format</span>(
+        <span class="st">&quot;For your amusement, the following </span><span class="ch">%s</span><span class="st"> Python quotation:&quot;</span>, freshness
+    ));
+    System.<span class="fu">out</span>.<span class="fu">println</span>(quotation);
+}</code></pre>
+<p>Note that a default value is given when we try to retrieve the value of a KeywordArgument from the KeywordArguments collection.</p>
+<h2 id="a-less-simple-example">A less simple example</h2>
+<p>As mentioned earlier, keyword arguments are especially handy when you want to tell a builder of some kind about the desired properties of the object you want it to build:</p>
+<pre class="sourceCode java"><code class="sourceCode java">Pony myPony = daddy.<span class="fu">iWantAPony</span>(COLOUR.<span class="fu">of</span>(<span class="st">&quot;pink&quot;</span>),
+                               MANE.<span class="fu">of</span>(<span class="st">&quot;lustrous&quot;</span>),
+                               MAGIC_POWERS.<span class="fu">of</span>(<span class="fu">newArrayList</span>(
+                                   <span class="st">&quot;glitter stomp&quot;</span>,
+                                   <span class="st">&quot;rainbow yawn&quot;</span>)));</code></pre>
+<p>Sometimes it's useful to be able to treat this bundle of properties as an object in its own right:</p>
+<pre class="sourceCode java"><code class="sourceCode java">KeywordArguments defaultPonySpec = KeywordArguments.<span class="fu">of</span>(
+    COLOUR.<span class="fu">of</span>(<span class="st">&quot;grey&quot;</span>),
+    MANE.<span class="fu">of</span>(<span class="st">&quot;lank&quot;</span>),
+    MAGIC_POWERS.<span class="fu">of</span>(<span class="fu">emptyList</span>()));
+
+KeywordArguments happyPonySpec = defaultPonySpec.<span class="fu">with</span>(
+    MANE.<span class="fu">of</span>(<span class="st">&quot;lustrous&quot;</span>));
+
+KeywordArguments pinkPonySpec = happyPonySpec.<span class="fu">with</span>(
+    COLOUR.<span class="fu">of</span>(<span class="st">&quot;pink&quot;</span>));
+
+KeywordArguments magicPonySpec = pinkPonySpec.<span class="fu">with</span>(
+    MAGIC_POWERS.<span class="fu">of</span>(<span class="fu">newArrayList</span>(<span class="st">&quot;glitter stomp&quot;</span>, <span class="st">&quot;rainbow yawn&quot;</span>)));
+
+Pony myPony = daddy.<span class="fu">iWantAPony</span>(magicPonySpec);</code></pre>
+<p>For this to work, the iWantAPony method must be overloaded to support being called with either varargs or a KeywordArguments object:</p>
+<pre class="sourceCode java"><code class="sourceCode java"><span class="kw">public</span> Pony <span class="fu">iWantAPony</span>(KeywordArgument...<span class="fu">argArray</span>) {
+    <span class="kw">return</span> <span class="fu">iWantAPony</span>(KeywordArguments.<span class="fu">of</span>(argArray));
+}
+
+<span class="kw">public</span> Pony <span class="fu">iWantAPony</span>(KeywordArguments args) {
+    Pony newPony = <span class="kw">new</span> <span class="fu">PonyImpl</span>();
+    newPony.<span class="fu">setColour</span>(COLOUR.<span class="fu">from</span>(args));
+    newPony.<span class="fu">setMane</span>(MANE.<span class="fu">from</span>(args));
+    newPony.<span class="fu">setMagicPowers</span>(MAGIC_POWERS.<span class="fu">from</span>(args));
+    <span class="kw">return</span> newPony;
+}</code></pre>
+<h2 id="getting-karg">Getting Karg</h2>
+<p>You can get Karg from <a href="http://github.com/youdevise/karg">GitHub</a>, or from <a href="http://search.maven.org/#artifactdetails%7Ccom.timgroup%7Ckarg%7C0.7%7Cjar">Maven Central</a>.</p>
