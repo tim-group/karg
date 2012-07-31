@@ -21,7 +21,7 @@ public class DelegatorTest {
     @Test public void
     can_delegate_a_single_method_interface_to_an_instance() throws Exception {
         Delegator<TestClass, Callable<String>> knockKnockDelegator = Delegator.ofMethod("knockKnock")
-                                                                     .of(TestClass.class)
+                                                                     .<TestClass>of(TestClass.class)
                                                                      .to(Callable.class);
         Callable<String> callable = knockKnockDelegator.delegateTo(testInstance);
         assertThat(callable.call(), is("who's there?"));
@@ -76,7 +76,7 @@ public class DelegatorTest {
     @Test public void
     can_delegate_methods_with_multiple_parameters() {
         Delegator<Multiplier, RightParameters> multiplication = Delegator.ofMethod("multiply")
-                                                                         .of(Multiplier.class)
+                                                                         .<Multiplier>of(Multiplier.class)
                                                                          .to(RightParameters.class);
         RightParameters delegate = multiplication.delegateTo(multiplier);
         
@@ -99,7 +99,7 @@ public class DelegatorTest {
     @Test(expected=MyException.class) public void
     passes_back_the_declared_exception_type_where_possible() throws Exception {
         Delegator<Exploder, Exceptional> delegator = Delegator.ofMethod("explode")
-                                                              .of(Exploder.class)
+                                                              .<Exploder>of(Exploder.class)
                                                               .to(Exceptional.class);
         
         Exceptional exceptional = delegator.delegateTo(new Exploder());
