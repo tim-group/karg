@@ -18,10 +18,10 @@ public class PropertyAccessorTest {
             return testString1;
         }
         
-        public String getTestString3() {
+        public String testString3() {
             return testString3;
         }
-        public void setTestString3(String testString3) {
+        public void set_test_string3(String testString3) {
             this.testString3 = testString3;
         }
         public String getTestString2() {

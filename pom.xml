@@ -9,7 +9,7 @@
   <artifactId>karg</artifactId>
   <packaging>jar</packaging>
   <name>Karg</name>
-  <version>0.7</version>
+  <version>0.8</version>
   <description>A library that helps you write Java functions using keyword arguments.</description>
   <url>https://github.com/youdevise/karg</url>
   <licenses>
@@ -42,7 +42,7 @@
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-all</artifactId>
       <version>1.2</version>
-      <scope>test</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.jmock</groupId>
@@ -56,7 +56,6 @@
       <version>4.8.2</version>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 
   <build>

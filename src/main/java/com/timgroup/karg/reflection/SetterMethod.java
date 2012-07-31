@@ -4,7 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import com.google.common.base.Preconditions;
-import com.timgroup.karg.naming.StringFunctions;
+import com.timgroup.karg.naming.TargetName;
+import com.timgroup.karg.naming.TargetNameFormatter;
 import com.timgroup.karg.reference.Setter;
 
 public class SetterMethod<C, V> implements Setter<C, V>, PropertyMethod {
@@ -37,7 +38,9 @@ public class SetterMethod<C, V> implements Setter<C, V>, PropertyMethod {
     }
 
     private static String getPropertyName(Method method) {
-        return StringFunctions.UNCAPITALISE.apply(method.getName().substring(3));
+        return TargetName.fromMethodName(method.getName())
+                         .withoutPrefix()
+                         .formatWith(TargetNameFormatter.LOWER_CAMEL_CASE);
     }
     
     private SetterMethod(String propertyName, Method method) {
@@ -50,6 +53,11 @@ public class SetterMethod<C, V> implements Setter<C, V>, PropertyMethod {
         return propertyName;
     }
 
+    @SuppressWarnings("unchecked")
+    public Class<V> valueType() {
+        return (Class<V>) method.getParameterTypes()[0];
+    }
+    
     @Override
     public V set(C object, V newValue) {
         try {

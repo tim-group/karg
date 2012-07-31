@@ -3,13 +3,14 @@
  */
 package com.timgroup.karg.reflection;
 
-import static com.timgroup.karg.naming.StringFunctions.UNCAPITALISE;
 import static java.lang.String.format;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import com.google.common.base.Preconditions;
+import com.timgroup.karg.naming.TargetName;
+import com.timgroup.karg.naming.TargetNameFormatter;
 import com.timgroup.karg.reference.Getter;
 
 public class GetterMethod<C, V> implements Getter<C, V>, PropertyMethod {
@@ -41,13 +42,15 @@ public class GetterMethod<C, V> implements Getter<C, V>, PropertyMethod {
     }
     
     private static String getPropertyName(String methodName) {
-        if (methodName.startsWith("is")) {
-            return UNCAPITALISE.apply(methodName.substring(2));
+        return targetNameWithoutPrefix(methodName).formatWith(TargetNameFormatter.LOWER_CAMEL_CASE);
+    }
+    
+    private static TargetName targetNameWithoutPrefix(String methodName) {
+        TargetName targetName = TargetName.fromMethodName(methodName);
+        if (targetName.hasPrefix("is") || targetName.hasPrefix("get")) {
+            return targetName.withoutPrefix();
         }
-        if (methodName.startsWith("get")) {
-            return UNCAPITALISE.apply(methodName.substring(3));
-        }
-        return methodName;
+        return targetName;
     }
     
     private GetterMethod(String propertyName, Method method) {
@@ -58,6 +61,11 @@ public class GetterMethod<C, V> implements Getter<C, V>, PropertyMethod {
     @Override
     public String propertyName() {
         return propertyName;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public Class<V> returnType() {
+        return (Class<V>) method.getReturnType();
     }
     
     @SuppressWarnings("unchecked")

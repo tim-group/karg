@@ -1,10 +1,7 @@
 package com.timgroup.karg.reflection;
 
-import java.lang.reflect.Method;
-
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
-import com.timgroup.karg.reference.Getter;
 import com.timgroup.karg.reference.Setter;
 
 public class PropertyAccessor<C, V> implements Accessor<C, V> {
@@ -15,40 +12,36 @@ public class PropertyAccessor<C, V> implements Accessor<C, V> {
 
     public static PropertyNameBinder forProperty(final String propertyName) {
         return new PropertyNameBinder() {
+            @SuppressWarnings("unchecked")
             @Override public <C, V> Accessor<C, V> ofClass(Class<C> owningClass) {
-                final Getter<C, V> getter = GetterMethod.forProperty(propertyName).ofClass(owningClass);
-                Preconditions.checkNotNull(getter, "No getter method exists for property %s", propertyName);
-                Method setterMethod = ClassInspector.forClass(owningClass).findSetterMethod(propertyName);
-                if (setterMethod == null) {
-                    return forProperty(propertyName, getter);
-                }
-                SetterMethod<C, V> setter = SetterMethod.forMethod(setterMethod);
-                return new PropertyAccessor<C, V>(propertyName, getter, setter);
+                Accessor<C, V> accessor = (Accessor<C, V>) PropertyAccessorFinder.forClass(owningClass).find().get(propertyName);
+                Preconditions.checkNotNull(accessor, "No property [%s] exists on class [%s]", propertyName, owningClass);
+                return accessor;
             }
         };
     }
     
-    public static <C, V> PropertyAccessor<C, V> forProperty(final String propertyName, Getter<C, V> getter) {
+    public static <C, V> PropertyAccessor<C, V> forProperty(final String propertyName, GetterMethod<C, V> getter) {
         return new PropertyAccessor<C, V>(propertyName, getter);
     }
     
-    public static <C, V> PropertyAccessor<C, V> forProperty(final String propertyName,
-                                                            Getter<C, V> getter,
-                                                            Setter<C, V> setter) {
+    public static <C, V> PropertyAccessor<C, V> forProperty(String propertyName,
+                                                            GetterMethod<C, V> getter,
+                                                            SetterMethod<C, V> setter) {
         return new PropertyAccessor<C, V>(propertyName, getter, setter);
     }
     
     private final String propertyName;
-    private final Getter<C, V> getter;
-    private final Optional<Setter<C, V>> setter;
+    private final GetterMethod<C, V> getter;
+    private final Optional<SetterMethod<C, V>> setter;
     
-    private PropertyAccessor(String propertyName, Getter<C, V> getter) {
+    private PropertyAccessor(String propertyName, GetterMethod<C, V> getter) {
         this.propertyName = propertyName;
         this.getter = getter;
         this.setter = Optional.absent();
     }
     
-    private PropertyAccessor(String propertyName, Getter<C, V> getter, Setter<C, V> setter) {
+    private PropertyAccessor(String propertyName, GetterMethod<C, V> getter, SetterMethod<C, V> setter) {
         this.propertyName = propertyName;
         this.getter = getter;
         this.setter = Optional.of(setter);
@@ -74,5 +67,10 @@ public class PropertyAccessor<C, V> implements Accessor<C, V> {
     @Override
     public boolean isMutable() {
         return setter.isPresent();
+    }
+
+    @Override
+    public Class<V> getType() {
+        return getter.returnType();
     }
 }

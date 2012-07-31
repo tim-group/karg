@@ -64,5 +64,11 @@ public class FieldAccessor<C, V> implements Accessor<C, V> {
     public boolean isMutable() {
         return !Modifier.isFinal(field.getModifiers());
     }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public Class<V> getType() {
+        return (Class<V>) field.getType();
+    }
 
 }

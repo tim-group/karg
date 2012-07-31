@@ -5,6 +5,13 @@ import com.google.common.collect.Lists;
 
 public class TargetName {
 
+    public static TargetName fromMethodName(String methodName) {
+        if (methodName.contains("_")) {
+            return TargetNameFormatter.UNDERSCORE_SEPARATED.parse(methodName);
+        }
+        return TargetNameFormatter.LOWER_CAMEL_CASE.parse(methodName);
+    }
+    
     private final Iterable<String> words;
     
     public TargetName(Iterable<String> words) {
@@ -17,6 +24,14 @@ public class TargetName {
     
     public TargetName withSuffix(String suffix) {
         return new TargetName(Iterables.concat(words, Lists.newArrayList(suffix)));
+    }
+    
+    public boolean hasPrefix(String prefix) {
+        return prefix.equals(Iterables.getFirst(words, null));
+    }
+    
+    public TargetName withoutPrefix() {
+        return new TargetName(Iterables.skip(words, 1));
     }
     
     public String formatWith(TargetNameFormatter formatter) {
