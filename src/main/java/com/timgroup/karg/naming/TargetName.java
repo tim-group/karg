@@ -7,9 +7,9 @@ public class TargetName {
 
     public static TargetName fromMethodName(String methodName) {
         if (methodName.contains("_")) {
-            return TargetNameFormatter.UNDERSCORE_SEPARATED.parse(methodName);
+            return TargetNameParser.UNDERSCORE_SEPARATED.parse(methodName);
         }
-        return TargetNameFormatter.LOWER_CAMEL_CASE.parse(methodName);
+        return TargetNameParser.CAMEL_CASE.parse(methodName);
     }
     
     private final Iterable<String> words;
