@@ -14,9 +14,9 @@ import java.util.concurrent.ExecutionException;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
-import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -42,7 +42,7 @@ public abstract class ValueType<T extends ValueType<T>> {
          }
     }
 
-    private static final Cache<Class<?>, Map<TypedKeyword<?, ?>, String>> keywordNameLookups =
+    private static final LoadingCache<Class<?>, Map<TypedKeyword<?, ?>, String>> keywordNameLookups =
             CacheBuilder.newBuilder().build(
            new KeywordNameLookupMaker());
     
