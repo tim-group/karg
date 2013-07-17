@@ -2,6 +2,8 @@ package com.timgroup.karg.valuetypes;
 
 import static com.timgroup.karg.keywords.typed.TypedKeywords.newTypedKeyword;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 import org.hamcrest.Matchers;
@@ -95,5 +97,20 @@ public class ValueTypeTest {
         
         assertThat(testValue.orderedKeywords(), Matchers.<TypedKeyword<TestValueType, ?>>contains(
             TestValueType.AGE, TestValueType.NAME));
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test public void
+    a_value_type_cannot_be_instantiated_without_a_complete_set_of_fields() {
+        TestValueType testValue = null;
+        try {
+            testValue = new TestValueType();
+        } catch(Exception e) {
+            assertThat(e.getMessage(), allOf(
+                containsString("Missing fields:"),
+                containsString("AGE"),
+                containsString("NAME")));
+        }
+        assertThat(testValue, Matchers.nullValue());
     }
 }

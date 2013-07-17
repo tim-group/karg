@@ -11,12 +11,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.timgroup.karg.keywords.typed.TypedKeyword;
 import com.timgroup.karg.keywords.typed.TypedKeywordArgument;
 import com.timgroup.karg.keywords.typed.TypedKeywordArguments;
@@ -54,8 +59,19 @@ public abstract class ValueType<T extends ValueType<T>> {
     private final Map<TypedKeyword<T, ?>, String> keywordNameLookup = keywordNameLookup(getClass());
     
     public ValueType(TypedKeywordArguments<T> fields) {
+        Preconditions.checkArgument(fields.keySet().equals(keywordNameLookup.keySet()),
+            "Missing fields: " + Joiner.on(", ").join(
+                Iterables.transform(Sets.difference(keywordNameLookup.keySet(), fields.keySet()),
+                                    lookupKeywordName)));
         this.fields = fields;
     }
+    
+    private final Function<TypedKeyword<T, ?>, String> lookupKeywordName = new Function<TypedKeyword<T,?>, String>() {
+        @Override
+        public String apply(TypedKeyword<T, ?> keyword) {
+            return keywordNameLookup.get(keyword);
+        }
+    };
 
     public TypedKeywordArguments<T> fields() {
         return fields;
