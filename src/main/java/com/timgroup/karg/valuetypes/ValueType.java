@@ -153,7 +153,7 @@ public abstract class ValueType<T extends ValueType<T>> {
     }
 
     @SuppressWarnings("unchecked")
-    protected T makeNew(TypedKeywordArguments<T> keywordArguments) {
+    public T makeNew(TypedKeywordArguments<T> keywordArguments) {
         try {
             return (T) this.getClass().getConstructor(TypedKeywordArguments.class).newInstance(keywordArguments);
         } catch (IllegalAccessException e) {
