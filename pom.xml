@@ -35,7 +35,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>15.0</version>
+      <version>18.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -59,7 +59,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit-dep</artifactId>
-      <version>4.10</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
